@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
   body: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignContent: "center"
+    alignContent: "center",
+    marginBottom: 20
   },
   input: {
     borderBottomColor: THEME.MAIN_COLOR,

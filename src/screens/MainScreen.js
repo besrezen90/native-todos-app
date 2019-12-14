@@ -6,14 +6,13 @@ import { Todo } from "../components/Todo";
 
 export const MainScreen = ({ todos, onAddTodo, onDeleteTodo, onSelect }) => {
   return (
-    <View>
+    <View style={styles.todos}>
       <AddTodo onAddTodo={onAddTodo} />
 
       <FlatList
         keyExtractor={item => item.id.toString()}
         data={todos}
         renderItem={({ item }) => <Todo key={item.id} todo={item} onDeleteTodo={onDeleteTodo} onSelect={onSelect} />}
-        style={styles.todos}
       />
     </View>
   );
