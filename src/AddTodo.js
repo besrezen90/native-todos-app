@@ -20,6 +20,8 @@ export const AddTodo = ({ onAddTodo }) => {
         value={todoName}
         onChangeText={setTodoName}
         placeholder='Введите название задачи...'
+        autoCapitalize='none'
+        autoCorrect={false}
       />
       <Button title='Добавить' onPress={onPress} />
     </View>
