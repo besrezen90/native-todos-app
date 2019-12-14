@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, TextInput, Button, Alert } from "react-native";
+import { THEME } from "../theme";
 
 export const AddTodo = ({ onAddTodo }) => {
   const [todoName, setTodoName] = useState("");
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     alignContent: "center"
   },
   input: {
-    borderBottomColor: "#3949ab",
+    borderBottomColor: THEME.MAIN_COLOR,
     borderBottomWidth: 2,
     width: "70%"
   }

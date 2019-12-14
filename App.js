@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { StyleSheet, View, FlatList } from "react-native";
-import { Navbar } from "./src/Navbar";
-import { AddTodo } from "./src/AddTodo";
-import { Todo } from "./src/Todo";
+import { Navbar } from "./src/components/Navbar";
+import { MainScreen } from "./src/screens/MainScreen";
+import { TodoScreen } from "./src/screens/TodoScreen";
 
 export default function App() {
-  const [todos, setTodos] = useState([]);
+  const [todoId, setTodoId] = useState("2");
+  const [todos, setTodos] = useState([
+    { id: "1", title: "Test 1" },
+    { id: "2", title: "Test 2" }
+  ]);
 
   const onAddTodo = title => {
     setTodos(prev => [
@@ -21,19 +25,17 @@ export default function App() {
     setTodos(prev => prev.filter(todo => todo.id !== id));
   };
 
+  let content = <MainScreen todos={todos} onDeleteTodo={onDeleteTodo} onAddTodo={onAddTodo} onSelect={setTodoId} />;
+
+  if (todoId) {
+    const selectedTodo = todos.find(todo => todo.id === todoId);
+    content = <TodoScreen todo={selectedTodo} goBack={() => setTodoId(null)} />;
+  }
+
   return (
     <View>
       <Navbar title={"Todo Apps"} />
-      <View style={styles.container}>
-        <AddTodo onAddTodo={onAddTodo} />
-      </View>
-
-      <FlatList
-        keyExtractor={item => item.id.toString()}
-        data={todos}
-        renderItem={({ item }) => <Todo key={item.id} todo={item} onDeleteTodo={onDeleteTodo} />}
-        style={styles.todos}
-      />
+      <View style={styles.container}>{content}</View>
     </View>
   );
 }
@@ -42,8 +44,5 @@ const styles = StyleSheet.create({
   container: {
     padding: 8,
     marginBottom: 16
-  },
-  todos: {
-    padding: 8
   }
 });
