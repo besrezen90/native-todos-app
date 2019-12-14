@@ -1,8 +1,18 @@
-import React from "react";
-import { StyleSheet, View, Modal, Text, TextInput, Button } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View, Modal, TextInput, Button, Alert } from "react-native";
 import { THEME } from "../theme";
 
-export const EditModal = ({ visible, onCancel }) => {
+export const EditModal = ({ visible, onCancel, value, onSave }) => {
+  const [title, setTitle] = useState(value);
+
+  const onSaveTitle = () => {
+    if (title.trim().length < 3) {
+      Alert.alert("Ошибка!", "Название задачи не может быть меньше 3 символов");
+    } else {
+      onSave(title);
+    }
+  };
+
   return (
     <Modal transparent={false} animationType='slide' visible={visible}>
       <View style={styles.wrap}>
@@ -12,11 +22,13 @@ export const EditModal = ({ visible, onCancel }) => {
           style={styles.input}
           placeholder={"Введите название задачи"}
           maxLength={64}
+          value={title}
+          onChangeText={setTitle}
         />
 
         <View style={styles.buttons}>
           <Button title='Отмена' color={THEME.DANGER_COLOR} onPress={onCancel} />
-          <Button title='Сохранить' />
+          <Button title='Сохранить' onPress={onSaveTitle} />
         </View>
       </View>
     </Modal>

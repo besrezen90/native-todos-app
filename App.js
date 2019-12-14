@@ -5,11 +5,8 @@ import { MainScreen } from "./src/screens/MainScreen";
 import { TodoScreen } from "./src/screens/TodoScreen";
 
 export default function App() {
-  const [todoId, setTodoId] = useState("2");
-  const [todos, setTodos] = useState([
-    { id: "1", title: "Test 1" },
-    { id: "2", title: "Test 2" }
-  ]);
+  const [todoId, setTodoId] = useState(null);
+  const [todos, setTodos] = useState([{ id: "1", title: "Test 1" }]);
 
   const onAddTodo = title => {
     setTodos(prev => [
@@ -19,6 +16,15 @@ export default function App() {
         title
       }
     ]);
+  };
+
+  const onSave = (id, title) => {
+    const newTodos = todos.map(todo => {
+      if (todo.id === id) {
+        return { id, title };
+      } else return todo;
+    });
+    setTodos([...newTodos]);
   };
 
   const onDeleteTodo = id => {
@@ -47,7 +53,9 @@ export default function App() {
 
   if (todoId) {
     const selectedTodo = todos.find(todo => todo.id === todoId);
-    content = <TodoScreen todo={selectedTodo} goBack={() => setTodoId(null)} onDeleteTodo={onDeleteTodo} />;
+    content = (
+      <TodoScreen todo={selectedTodo} goBack={() => setTodoId(null)} onDeleteTodo={onDeleteTodo} onSave={onSave} />
+    );
   }
 
   return (
