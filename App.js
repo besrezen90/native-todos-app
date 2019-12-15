@@ -6,14 +6,10 @@ import { TodoState } from "./src/context/todo/TodoState";
 import { ScreenState } from "./src/context/screen/ScreenState";
 
 const loadApp = async () => {
-  try {
     await Font.loadAsync({
       "roboto-regular": require("./assets/fonts/Roboto-Regular.ttf"),
       "roboto-bold": require("./assets/fonts/Roboto-Bold.ttf")
     });
-  } finally {
-    console.log("Roboto is loaded:" + Font.isLoaded("roboto-regular"));
-  }
 };
 
 export default function App() {
