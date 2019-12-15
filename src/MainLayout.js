@@ -6,14 +6,13 @@ import { Navbar } from "./components/Navbar";
 import { MainScreen } from "./screens/MainScreen";
 import { TodoScreen } from "./screens/TodoScreen";
 import { TodoContext } from "./context/todo/todoContext";
+import { ScreenContext } from "./context/screen/screenContext";
 
 export const MainLayout = () => {
   const { todos, onAddTodo, onUpdateTodo, onDeleteTodo } = useContext(TodoContext);
-
-  const [todoId, setTodoId] = useState(null);
+  const { todoId, changeScreen } = useContext(ScreenContext);
 
   const onDelete = id => {
-    console.log(id);
     const todo = todos.find(t => t.id === id);
     Alert.alert(
       "Удалить задачу",
@@ -26,7 +25,6 @@ export const MainLayout = () => {
         {
           text: "OK",
           onPress: () => {
-            setTodoId(null);
             onDeleteTodo(id);
           }
         }
@@ -35,12 +33,12 @@ export const MainLayout = () => {
     );
   };
 
-  let content = <MainScreen todos={todos} onDeleteTodo={onDelete} onAddTodo={onAddTodo} onSelect={setTodoId} />;
+  let content = <MainScreen todos={todos} onDeleteTodo={onDelete} onAddTodo={onAddTodo} onSelect={changeScreen} />;
 
   if (todoId) {
     const selectedTodo = todos.find(todo => todo.id === todoId);
     content = (
-      <TodoScreen todo={selectedTodo} goBack={() => setTodoId(null)} onDeleteTodo={onDelete} onSave={onUpdateTodo} />
+      <TodoScreen todo={selectedTodo} goBack={() => changeScreen(null)} onDeleteTodo={onDelete} onSave={onUpdateTodo} />
     );
   }
 
