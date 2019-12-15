@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TextInput, Button, Alert } from "react-native";
+import { View, StyleSheet, TextInput, Alert } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 import { THEME } from "../theme";
@@ -43,6 +43,6 @@ const styles = StyleSheet.create({
   input: {
     borderBottomColor: THEME.MAIN_COLOR,
     borderBottomWidth: 2,
-    width: "70%"
+    width: "60%"
   }
 });
