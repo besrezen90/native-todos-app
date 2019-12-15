@@ -10,27 +10,6 @@ import { ScreenContext } from "./context/screen/screenContext";
 export const MainLayout = () => {
   const { todoId } = useContext(ScreenContext);
 
-  // const onDelete = id => {
-  //   const todo = todos.find(t => t.id === id);
-  //   Alert.alert(
-  //     "Удалить задачу",
-  //     `Вы уверены что хотите удалить задачу ${todo.title}`,
-  //     [
-  //       {
-  //         text: "Cancel",
-  //         style: "cancel"
-  //       },
-  //       {
-  //         text: "OK",
-  //         onPress: () => {
-  //           onDeleteTodo(id);
-  //         }
-  //       }
-  //     ],
-  //     { cancelable: false }
-  //   );
-  // };
-
   return (
     <View>
       <Navbar title={"Todo Apps"} />
