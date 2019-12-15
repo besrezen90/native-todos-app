@@ -7,7 +7,6 @@ export const AppTextBold = ({ style, children }) => {
 
 const styles = StyleSheet.create({
   default: {
-    // fontFamily: "roboto-bold" //FIXME: подключенные шрифты не работают
-    fontWeight: "700" //TODO: временно пока не решил проблему с подключенными шрифтами
+    fontFamily: "roboto-bold"
   }
 });

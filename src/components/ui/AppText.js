@@ -7,6 +7,6 @@ export const AppText = ({ style, children }) => {
 
 const styles = StyleSheet.create({
   default: {
-    // fontFamily: "roboto-regular" //FIXME: подключенные шрифты не работают
+    fontFamily: "roboto-regular"
   }
 });

@@ -9,10 +9,14 @@ import { TodoScreen } from "./src/screens/TodoScreen";
 
 //FIXME: подключение шрифтов временно не работает
 const loadApp = async () => {
-  await Font.loadAsync({
-    "roboto-regular": require("./assets/fonts/Roboto-Regular.ttf"),
-    "roboto-bold": require("./assets/fonts/Roboto-Bold.ttf")
-  });
+  try {
+    await Font.loadAsync({
+      "roboto-regular": require("./assets/fonts/Roboto-Regular.ttf"),
+      "roboto-bold": require("./assets/fonts/Roboto-Bold.ttf")
+    });
+  } finally {
+    console.log("Roboto is loaded:" + Font.isLoaded("roboto-regular"));
+  }
 };
 
 export default function App() {

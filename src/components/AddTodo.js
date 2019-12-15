@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet, TextInput, Button, Alert } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+
 import { THEME } from "../theme";
 
 export const AddTodo = ({ onAddTodo }) => {
@@ -24,7 +26,9 @@ export const AddTodo = ({ onAddTodo }) => {
         autoCapitalize='none'
         autoCorrect={false}
       />
-      <Button title='Добавить' onPress={onPress} />
+      <AntDesign.Button onPress={onPress} name='pluscircleo'>
+        Добавить
+      </AntDesign.Button>
     </View>
   );
 };
