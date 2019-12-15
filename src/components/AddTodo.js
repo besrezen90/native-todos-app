@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TextInput, Alert } from "react-native";
+import { View, StyleSheet, TextInput, Alert, Keyboard } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 import { THEME } from "../theme";
@@ -13,6 +13,7 @@ export const AddTodo = ({ onAddTodo }) => {
     } else {
       onAddTodo(todoName.trim());
       setTodoName("");
+      Keyboard.dismiss();
     }
   };
 
