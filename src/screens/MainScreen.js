@@ -6,9 +6,12 @@ import { Todo } from "../components/Todo";
 import { TodoContext } from "../context/todo/todoContext";
 import { ScreenContext } from "../context/screen/screenContext";
 import { AppLoading } from "../components/ui/AppLoading";
+import { AppText } from "../components/ui/AppText";
+import { AppButton } from "../components/ui/AppButton";
+import { THEME } from "../theme";
 
 export const MainScreen = () => {
-  const { todos, onAddTodo, onDeleteTodo, fetchData, loading, errors } = useContext(TodoContext);
+  const { todos, onAddTodo, onDeleteTodo, fetchData, loading, error } = useContext(TodoContext);
   const { changeScreen } = useContext(ScreenContext);
 
   const onLoadData = useCallback(async () => fetchData(), [fetchData]);
@@ -19,6 +22,15 @@ export const MainScreen = () => {
 
   if (loading) {
     return <AppLoading />;
+  }
+
+  if (error) {
+    return (
+      <View style={styles.center}>
+        <AppText style={styles.error}>{error}</AppText>
+        <AppButton onPress={onLoadData}>Повторить</AppButton>
+      </View>
+    );
   }
 
   return (
@@ -54,5 +66,14 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     resizeMode: "contain"
+  },
+  center: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  error: {
+    fontSize: 20,
+    color: THEME.DANGER_COLOR
   }
 });

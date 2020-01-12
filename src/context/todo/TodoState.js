@@ -13,6 +13,7 @@ import {
   FETCH_TODOS
 } from "../types";
 import { ScreenContext } from "../screen/screenContext";
+import { HTTP } from "../../http";
 
 export const TodoState = ({ children }) => {
   const { changeScreen } = useContext(ScreenContext);
@@ -22,17 +23,20 @@ export const TodoState = ({ children }) => {
   const [state, dispatch] = useReducer(todoReducer, initialState);
 
   const onAddTodo = async title => {
-    const response = await fetch("https://rn-todo-app-90154.firebaseio.com/todos.json", {
-      method: "POST",
-      headers: { "Content-Type": "applications/json" },
-      body: JSON.stringify({ title })
-    });
-
-    const data = await response.json();
+    const data = await HTTP.post("https://rn-todo-app-90154.firebaseio.com/todos.json", { title });
     dispatch({ type: ADD_TODO, title, id: data.name });
   };
 
-  const onUpdateTodo = (id, title) => dispatch({ type: UPDATE_TODO, id, title });
+  const onUpdateTodo = async (id, title) => {
+    clearError();
+    try {
+      await HTTP.patch(`https://rn-todo-app-90154.firebaseio.com/todos/${id}.json`, { title });
+
+      dispatch({ type: UPDATE_TODO, id, title });
+    } catch (error) {
+      showError(error);
+    }
+  };
 
   const onDeleteTodo = id => {
     const todo = state.todos.find(t => t.id === id);
@@ -46,9 +50,16 @@ export const TodoState = ({ children }) => {
         },
         {
           text: "OK",
-          onPress: () => {
+          onPress: async () => {
             changeScreen(null);
-            dispatch({ type: REMOVE_TODO, id });
+            clearError();
+            try {
+              await HTTP.delete(`https://rn-todo-app-90154.firebaseio.com/todos/${id}.json`);
+
+              dispatch({ type: REMOVE_TODO, id });
+            } catch (error) {
+              showError(error);
+            }
           }
         }
       ],
@@ -57,16 +68,14 @@ export const TodoState = ({ children }) => {
   };
 
   const fetchData = async () => {
+    setLoader();
+    clearError();
     try {
-      setLoader();
-      const response = await fetch("https://rn-todo-app-90154.firebaseio.com/todos.json", {
-        headers: { "Content-Type": "applications/json" }
-      });
-
-      const data = await response.json();
+      const data = await HTTP.get("https://rn-todo-app-90154.firebaseio.com/todos.json");
       const todos = Object.keys(data).map(key => ({ ...data[key], id: key }));
-      console.log("FetchTodos", todos);
       dispatch({ type: FETCH_TODOS, todos });
+    } catch (e) {
+      showError("Что-то сломалось...");
     } finally {
       hideLoader();
     }
@@ -86,7 +95,7 @@ export const TodoState = ({ children }) => {
         onDeleteTodo,
         fetchData,
         loading: state.loading,
-        erros: state.errors
+        error: state.error
       }}
     >
       {children}
